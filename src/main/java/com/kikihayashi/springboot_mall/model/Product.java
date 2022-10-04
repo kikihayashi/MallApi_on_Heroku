@@ -1,19 +1,20 @@
 package com.kikihayashi.springboot_mall.model;
 
+import com.kikihayashi.springboot_mall.constant.ProductCategory;
+
 import java.util.Date;
 
 public class Product {
 
     private Integer product_id;
     private String product_name;
-    private String category;
+    private ProductCategory category;
     private String image_url;
     private Integer price;
     private Integer stock;
     private String description;
     private Date created_date;
     private Date last_modified_date;
-
 
     public Integer getProduct_id() {
         return product_id;
@@ -31,11 +32,11 @@ public class Product {
         this.product_name = product_name;
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductCategory category) {
         this.category = category;
     }
 
