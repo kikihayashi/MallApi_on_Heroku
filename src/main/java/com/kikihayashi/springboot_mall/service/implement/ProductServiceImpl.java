@@ -1,7 +1,7 @@
 package com.kikihayashi.springboot_mall.service.implement;
 
-import com.kikihayashi.springboot_mall.constant.ProductCategory;
 import com.kikihayashi.springboot_mall.dao.ProductDao;
+import com.kikihayashi.springboot_mall.dto.ProductQueryParams;
 import com.kikihayashi.springboot_mall.dto.ProductRequest;
 import com.kikihayashi.springboot_mall.model.Product;
 import com.kikihayashi.springboot_mall.service.ProductService;
@@ -17,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String search) {
-        return productDao.getProducts(category, search);
+    public List<Product> getProducts(ProductQueryParams params) {
+        return productDao.getProducts(params);
     }
 
     @Override
@@ -40,4 +40,6 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Integer id) {
         productDao.deleteProduct(id);
     }
+
+
 }

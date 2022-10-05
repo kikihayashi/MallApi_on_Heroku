@@ -2,6 +2,7 @@ package com.kikihayashi.springboot_mall.dao.implement;
 
 import com.kikihayashi.springboot_mall.constant.ProductCategory;
 import com.kikihayashi.springboot_mall.dao.ProductDao;
+import com.kikihayashi.springboot_mall.dto.ProductQueryParams;
 import com.kikihayashi.springboot_mall.dto.ProductRequest;
 import com.kikihayashi.springboot_mall.model.Product;
 import com.kikihayashi.springboot_mall.rowmapper.ProductRowMapper;
@@ -37,20 +38,20 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String search) {
+    public List<Product> getProducts(ProductQueryParams params) {
         String sqlCommand = "SELECT product_id,product_name, category, image_url, price, " +
                 "stock, description, created_date, last_modified_date " +
                 "FROM product WHERE 1=1";
 
         Map<String, Object> map = new HashMap<>();
 
-        if (category != null) {
+        if (params.getCategory() != null) {
             sqlCommand += " AND category = :category";
-            map.put("category", category.name());
+            map.put("category", params.getCategory().name());
         }
-        if (search != null) {
+        if (params.getSearch() != null) {
             sqlCommand += " AND product_name LIKE :search";
-            map.put("search", "%" + search + "%");//百分比不可以放在sqlCommand中，一定要在map裡
+            map.put("search", "%" + params.getSearch() + "%");//百分比不可以放在sqlCommand中，一定要在map裡
         }
 
         List<Product> productList = namedParameterJdbcTemplate.query(sqlCommand, map, new ProductRowMapper());
