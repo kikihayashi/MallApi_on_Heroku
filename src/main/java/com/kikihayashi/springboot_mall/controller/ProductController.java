@@ -1,5 +1,6 @@
 package com.kikihayashi.springboot_mall.controller;
 
+import com.kikihayashi.springboot_mall.constant.ProductCategory;
 import com.kikihayashi.springboot_mall.dto.ProductRequest;
 import com.kikihayashi.springboot_mall.model.Product;
 import com.kikihayashi.springboot_mall.service.ProductService;
@@ -29,8 +30,11 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts() {
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String search
+    ) {
+        List<Product> productList = productService.getProducts(category, search);
         //對Restful的設計理念，即便沒有任何商品，products這個url資源還是存在，所以一律回傳200
         //不需要驗證所有商品的數量是否大於0
         return ResponseEntity.status(HttpStatus.OK).body(productList);

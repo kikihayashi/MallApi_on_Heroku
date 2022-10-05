@@ -1,5 +1,6 @@
 package com.kikihayashi.springboot_mall.service.implement;
 
+import com.kikihayashi.springboot_mall.constant.ProductCategory;
 import com.kikihayashi.springboot_mall.dao.ProductDao;
 import com.kikihayashi.springboot_mall.dto.ProductRequest;
 import com.kikihayashi.springboot_mall.model.Product;
@@ -16,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory category, String search) {
+        return productDao.getProducts(category, search);
     }
 
     @Override
