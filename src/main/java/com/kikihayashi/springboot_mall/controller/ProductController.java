@@ -3,13 +3,13 @@ package com.kikihayashi.springboot_mall.controller;
 import com.kikihayashi.springboot_mall.dto.ProductRequest;
 import com.kikihayashi.springboot_mall.model.Product;
 import com.kikihayashi.springboot_mall.service.ProductService;
-import org.apache.catalina.util.Introspection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -19,14 +19,21 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer id) {
-        System.out.println("13213");
         Product product = productService.getProductById(id);
-
+        //需要驗證商品是否存在
         if (product != null) {
             return ResponseEntity.status(HttpStatus.OK).body(product);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getProducts() {
+        List<Product> productList = productService.getProducts();
+        //對Restful的設計理念，即便沒有任何商品，products這個url資源還是存在，所以一律回傳200
+        //不需要驗證所有商品的數量是否大於0
+        return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 
     @PostMapping("/products")
