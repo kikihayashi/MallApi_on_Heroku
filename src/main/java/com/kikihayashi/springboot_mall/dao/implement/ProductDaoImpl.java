@@ -53,8 +53,14 @@ public class ProductDaoImpl implements ProductDao {
             sqlCommand += " AND product_name LIKE :search";
             map.put("search", "%" + params.getSearch() + "%");//百分比不可以放在sqlCommand中，一定要在map裡
         }
-        //加上排序條件
+
+        //加上排序條件(註：ORDER BY 不能用map.put方法傳遞參數，得到的結果不會是預期)
         sqlCommand += " ORDER BY " + params.getOrderBy() + " " + params.getSort();
+
+        //加上分頁條件(註：LIMIT、OFFSET 可以用map.put方法傳遞參數)
+        sqlCommand += " LIMIT :limit OFFSET :offset";
+        map.put("limit", params.getLimit());
+        map.put("offset", params.getOffset());
 
         List<Product> productList = namedParameterJdbcTemplate.query(sqlCommand, map, new ProductRowMapper());
 
