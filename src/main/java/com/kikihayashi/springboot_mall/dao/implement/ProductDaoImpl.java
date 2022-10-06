@@ -68,6 +68,27 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public Integer countProduct(ProductQueryParams params) {
+        String sqlCommand = "SELECT COUNT(*) FROM product WHERE 1=1";
+
+        Map<String, Object> map = new HashMap<>();
+
+        if (params.getCategory() != null) {
+            sqlCommand += " AND category = :category";
+            map.put("category", params.getCategory().name());
+        }
+        if (params.getSearch() != null) {
+            sqlCommand += " AND product_name LIKE :search";
+            map.put("search", "%" + params.getSearch() + "%");//百分比不可以放在sqlCommand中，一定要在map裡
+        }
+
+        //queryForObject專門查找COUNT(*)用
+        Integer count = namedParameterJdbcTemplate.queryForObject(sqlCommand, map, Integer.class);
+
+        return count;
+    }
+
+    @Override
     public Integer createProduct(ProductRequest productRequest) {
         String sqlCommand = "INSERT INTO product(product_name, category, image_url, price, " +
                 "stock, description, created_date, last_modified_date) " +

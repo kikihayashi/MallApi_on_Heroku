@@ -5,6 +5,7 @@ import com.kikihayashi.springboot_mall.dto.ProductQueryParams;
 import com.kikihayashi.springboot_mall.dto.ProductRequest;
 import com.kikihayashi.springboot_mall.model.Product;
 import com.kikihayashi.springboot_mall.service.ProductService;
+import com.kikihayashi.springboot_mall.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
             /**
              * 查詢條件
              * category：分類
@@ -60,10 +61,21 @@ public class ProductController {
         params.setLimit(limit);
         params.setOffset(offset);
 
+        //取得當前條件下的資料(有包括limit、offset條件)
         List<Product> productList = productService.getProducts(params);
+
+        //取得當前條件下的總筆數(不包括limit、offset條件)
+        Integer total = productService.countProduct(params);
+
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResults(productList);
+
         //對Restful的設計理念，即便沒有任何商品，products這個url資源還是存在，所以一律回傳200
         //不需要驗證所有商品的數量是否大於0
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     @PostMapping("/products")
