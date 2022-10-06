@@ -20,6 +20,7 @@ import java.util.Map;
 
 @Component
 public class ProductDaoImpl implements ProductDao {
+
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -45,14 +46,7 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
-        if (params.getCategory() != null) {
-            sqlCommand += " AND category = :category";
-            map.put("category", params.getCategory().name());
-        }
-        if (params.getSearch() != null) {
-            sqlCommand += " AND product_name LIKE :search";
-            map.put("search", "%" + params.getSearch() + "%");//百分比不可以放在sqlCommand中，一定要在map裡
-        }
+        sqlCommand = addFilteringSql(params, map, sqlCommand);
 
         //加上排序條件(註：ORDER BY 不能用map.put方法傳遞參數，得到的結果不會是預期)
         sqlCommand += " ORDER BY " + params.getOrderBy() + " " + params.getSort();
@@ -72,16 +66,7 @@ public class ProductDaoImpl implements ProductDao {
         String sqlCommand = "SELECT COUNT(*) FROM product WHERE 1=1";
 
         Map<String, Object> map = new HashMap<>();
-
-        if (params.getCategory() != null) {
-            sqlCommand += " AND category = :category";
-            map.put("category", params.getCategory().name());
-        }
-        if (params.getSearch() != null) {
-            sqlCommand += " AND product_name LIKE :search";
-            map.put("search", "%" + params.getSearch() + "%");//百分比不可以放在sqlCommand中，一定要在map裡
-        }
-
+        sqlCommand = addFilteringSql(params, map, sqlCommand);
         //queryForObject專門查找COUNT(*)用
         Integer count = namedParameterJdbcTemplate.queryForObject(sqlCommand, map, Integer.class);
 
@@ -143,6 +128,18 @@ public class ProductDaoImpl implements ProductDao {
         map.put("productId", id);
 
         namedParameterJdbcTemplate.update(sql, map);
+    }
+
+    private String addFilteringSql(ProductQueryParams params, Map<String, Object> map, String sqlCommand) {
+        if (params.getCategory() != null) {
+            sqlCommand += " AND category = :category";
+            map.put("category", params.getCategory().name());
+        }
+        if (params.getSearch() != null) {
+            sqlCommand += " AND product_name LIKE :search";
+            map.put("search", "%" + params.getSearch() + "%");//百分比不可以放在sqlCommand中，一定要在map裡
+        }
+        return sqlCommand;
     }
 
 
