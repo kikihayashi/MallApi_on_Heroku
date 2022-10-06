@@ -53,6 +53,8 @@ public class ProductDaoImpl implements ProductDao {
             sqlCommand += " AND product_name LIKE :search";
             map.put("search", "%" + params.getSearch() + "%");//百分比不可以放在sqlCommand中，一定要在map裡
         }
+        //加上排序條件
+        sqlCommand += " ORDER BY " + params.getOrderBy() + " " + params.getSort();
 
         List<Product> productList = namedParameterJdbcTemplate.query(sqlCommand, map, new ProductRowMapper());
 

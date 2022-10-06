@@ -32,12 +32,24 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(
+            /**
+             * 查詢條件
+             * category：分類
+             * search：關鍵字
+             * orderBy：排序
+             * sort：升序、降序
+             * */
             @RequestParam(required = false) ProductCategory category,
-            @RequestParam(required = false) String search
+            @RequestParam(required = false) String search,
+            @RequestParam(defaultValue = "created_date") String orderBy,
+            @RequestParam(defaultValue = "DESC") String sort
     ) {
         ProductQueryParams params = new ProductQueryParams();
         params.setCategory(category);
         params.setSearch(search);
+        params.setOrderBy(orderBy);
+        params.setSort(sort);
+
         List<Product> productList = productService.getProducts(params);
         //對Restful的設計理念，即便沒有任何商品，products這個url資源還是存在，所以一律回傳200
         //不需要驗證所有商品的數量是否大於0
