@@ -1,11 +1,22 @@
 package com.kikihayashi.springboot_mall.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
+
+
+/**
+ *  JsonIgnore：如果Response有回傳該值，該值將會隱藏起來
+ */
 
 public class User {
 
     private Integer userId;
+
+    @JsonProperty("e_mail")
     private String email;
+    @JsonIgnore
     private String password;
     private Date createdDate;
     private Date lastModifiedDate;
