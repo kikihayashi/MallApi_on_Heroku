@@ -10,6 +10,4 @@ public interface UserDao {
     User getUserById(Integer id);
 
     User getUserByEmail(String email);
-
-    User login(UserLoginRequest userLoginRequest);
 }
