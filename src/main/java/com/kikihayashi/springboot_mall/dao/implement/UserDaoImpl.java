@@ -1,6 +1,7 @@
 package com.kikihayashi.springboot_mall.dao.implement;
 
 import com.kikihayashi.springboot_mall.dao.UserDao;
+import com.kikihayashi.springboot_mall.dto.UserLoginRequest;
 import com.kikihayashi.springboot_mall.dto.UserRegisterRequest;
 import com.kikihayashi.springboot_mall.model.User;
 import com.kikihayashi.springboot_mall.rowmapper.UserRowMapper;
@@ -67,6 +68,24 @@ public class UserDaoImpl implements UserDao {
 
         Map<String, Object> map = new HashMap<>();
         map.put("email", email);
+
+        List<User> userList = namedParameterJdbcTemplate.query(sqlCommand, map, new UserRowMapper());
+
+        if (userList.size() > 0) {
+            return userList.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        String sqlCommand = "SELECT user_id,email,password,created_date,last_modified_date " +
+                "FROM user WHERE email = :email AND password = :password";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", userLoginRequest.getEmail());
+        map.put("password", userLoginRequest.getPassword());
 
         List<User> userList = namedParameterJdbcTemplate.query(sqlCommand, map, new UserRowMapper());
 

@@ -1,6 +1,7 @@
 package com.kikihayashi.springboot_mall.service.implement;
 
 import com.kikihayashi.springboot_mall.dao.UserDao;
+import com.kikihayashi.springboot_mall.dto.UserLoginRequest;
 import com.kikihayashi.springboot_mall.dto.UserRegisterRequest;
 import com.kikihayashi.springboot_mall.model.User;
 import com.kikihayashi.springboot_mall.service.UserService;
@@ -35,5 +36,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Integer id) {
         return userDao.getUserById(id);
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        //檢查Email是否存在
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
+
+        if (user == null) {
+            log.warn("該Email {} 未註冊", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if (user.getPassword().equals(userLoginRequest.getPassword())) {
+            return user;
+        } else {
+            log.warn("該Email {} 密碼不正確", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }
