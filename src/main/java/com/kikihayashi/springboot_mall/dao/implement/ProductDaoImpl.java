@@ -1,6 +1,5 @@
 package com.kikihayashi.springboot_mall.dao.implement;
 
-import com.kikihayashi.springboot_mall.constant.ProductCategory;
 import com.kikihayashi.springboot_mall.dao.ProductDao;
 import com.kikihayashi.springboot_mall.dto.ProductQueryParams;
 import com.kikihayashi.springboot_mall.dto.ProductRequest;

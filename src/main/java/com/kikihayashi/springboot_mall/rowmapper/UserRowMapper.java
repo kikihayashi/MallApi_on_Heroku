@@ -1,6 +1,5 @@
 package com.kikihayashi.springboot_mall.rowmapper;
 
-import com.kikihayashi.springboot_mall.constant.ProductCategory;
 import com.kikihayashi.springboot_mall.model.Product;
 import com.kikihayashi.springboot_mall.model.User;
 import org.springframework.jdbc.core.RowMapper;

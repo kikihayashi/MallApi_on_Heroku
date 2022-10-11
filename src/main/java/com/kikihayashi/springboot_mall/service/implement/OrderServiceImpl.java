@@ -4,11 +4,11 @@ import com.kikihayashi.springboot_mall.dao.OrderDao;
 import com.kikihayashi.springboot_mall.dao.ProductDao;
 import com.kikihayashi.springboot_mall.dto.BuyItem;
 import com.kikihayashi.springboot_mall.dto.CreateOrderRequest;
+import com.kikihayashi.springboot_mall.model.Order;
 import com.kikihayashi.springboot_mall.model.OrderItem;
 import com.kikihayashi.springboot_mall.model.Product;
 import com.kikihayashi.springboot_mall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,5 +51,17 @@ public class OrderServiceImpl implements OrderService {
         orderDao.createOrderItems(orderId, orderItemList);
 
         return orderId;
+    }
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+
+        Order order = orderDao.getOrderById(orderId);
+
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+;
+        order.setOrderItemList(orderItemList);
+
+        return order;
     }
 }
