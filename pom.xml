@@ -14,7 +14,7 @@
     <name>springboot_mall</name>
     <description>springboot_mall</description>
     <properties>
-        <java.version>11</java.version>
+<!--        <java.version>11</java.version>-->
     </properties>
     <dependencies>
         <dependency>
@@ -50,13 +50,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!--    Heroku 需要    -->
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
         </dependency>
 
         <!--    Swagger Api    -->
