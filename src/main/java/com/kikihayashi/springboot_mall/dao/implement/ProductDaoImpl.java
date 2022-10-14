@@ -106,7 +106,8 @@ public class ProductDaoImpl implements ProductDao {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        namedParameterJdbcTemplate.update(sqlCommand, new MapSqlParameterSource(map), keyHolder);
+        //最後一個參數是針對，postgresql不知道key值，需要讓spring知道哪個column是key而使用
+        namedParameterJdbcTemplate.update(sqlCommand, new MapSqlParameterSource(map), keyHolder, new String[]{"product_id"});
 
         int id = keyHolder.getKey().intValue();
 
