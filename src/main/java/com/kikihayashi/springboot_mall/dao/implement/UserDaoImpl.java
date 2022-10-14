@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Integer createUser(UserRegisterRequest userRegisterRequest) {
-        String sqlCommand = "INSERT INTO 'user'(email, password, created_date, last_modified_date) " +
+        String sqlCommand = "INSERT INTO \"user\" (email, password, created_date, last_modified_date) " +
                 "VALUES (:email, :password, :createdDate, :lastModifiedDate)";
 
         Map<String, Object> map = new HashMap<>();
