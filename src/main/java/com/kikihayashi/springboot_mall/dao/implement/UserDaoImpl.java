@@ -54,7 +54,6 @@ public class UserDaoImpl implements UserDao {
         List<User> userList = namedParameterJdbcTemplate.query(sqlCommand, map, new UserRowMapper());
 
         if (userList.size() > 0) {
-
             return userList.get(0);
         } else {
             return null;
