@@ -28,7 +28,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Integer createOrder(Integer userId, int totalAmount) {
-        String sqlCommand = "INSERT INTO `order` (user_id, total_amount, created_date, last_modified_date) " +
+        String sqlCommand = "INSERT INTO order_info (user_id, total_amount, created_date, last_modified_date) " +
                 "VALUES(:userId, :totalAmount, :createdDate, :lastModifiedDate)";
 
         Map<String, Object> map = new HashMap<>();
@@ -71,7 +71,7 @@ public class OrderDaoImpl implements OrderDao {
     public Order getOrderById(Integer orderId) {
 
         String sqlCommand = "SELECT order_id,user_id,total_amount,created_date,last_modified_date " +
-                "FROM `order` WHERE order_id = :orderId";
+                "FROM order_info WHERE order_id = :orderId";
 
         Map<String, Object> map = new HashMap<>();
         map.put("orderId", orderId);
@@ -100,7 +100,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Integer countOrder(OrderQueryParams orderQueryParams) {
-        String sqlCommand = "SELECT COUNT(*) FROM `order` WHERE 1=1";
+        String sqlCommand = "SELECT COUNT(*) FROM order_info WHERE 1=1";
 
         Map<String, Object> map = new HashMap<>();
 
@@ -115,7 +115,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getOrders(OrderQueryParams orderQueryParams) {
         String sqlCommand = "SELECT order_id, user_id, total_amount ,created_date, last_modified_date " +
-                "FROM `order` WHERE 1=1";
+                "FROM order_info WHERE 1=1";
 
         Map<String, Object> map = new HashMap<>();
 
