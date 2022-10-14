@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Integer createUser(UserRegisterRequest userRegisterRequest) {
-        String sqlCommand = "INSERT INTO \"user\" (email, password, created_date, last_modified_date) " +
+        String sqlCommand = "INSERT INTO user_info (email, password, created_date, last_modified_date) " +
                 "VALUES (:email, :password, :createdDate, :lastModifiedDate)";
 
         Map<String, Object> map = new HashMap<>();
@@ -45,27 +45,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserById(Integer id) {
-        String sqlCommand = "SELECT user_id,email,password,created_date,last_modified_date " +
-                "FROM user WHERE user_id = :userId";
+        String sqlCommand = "SELECT user_id, email, password, created_date, last_modified_date " +
+                "FROM user_info WHERE user_id = :userId";
 
         Map<String, Object> map = new HashMap<>();
         map.put("userId", id);
 
-        return queryUser(sqlCommand, map);
-    }
-
-    @Override
-    public User getUserByEmail(String email) {
-        String sqlCommand = "SELECT user_id,email,password,created_date,last_modified_date " +
-                "FROM user WHERE email = :email";
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("email", email);
-
-        return queryUser(sqlCommand, map);
-    }
-
-    private User queryUser(String sqlCommand, Map<String, Object> map) {
         try {
             List<User> userList = namedParameterJdbcTemplate.query(sqlCommand, map, new UserRowMapper());
             if (userList.size() > 0) {
@@ -79,4 +64,24 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        String sqlCommand = "SELECT user_id,email, password, created_date, last_modified_date " +
+                "FROM user_info WHERE email = :email";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", email);
+
+        try {
+            List<User> userList = namedParameterJdbcTemplate.query(sqlCommand, map, new UserRowMapper());
+            if (userList.size() > 0) {
+                return userList.get(0);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
