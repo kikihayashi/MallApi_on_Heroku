@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
         map.put("lastModifiedDate", now);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        namedParameterJdbcTemplate.update(sqlCommand, new MapSqlParameterSource(map), keyHolder);
+        namedParameterJdbcTemplate.update(sqlCommand, new MapSqlParameterSource(map), keyHolder, new String[]{"user_id"});
 
         int id = keyHolder.getKey().intValue();
         return id;

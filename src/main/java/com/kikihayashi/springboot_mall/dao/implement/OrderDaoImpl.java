@@ -41,7 +41,7 @@ public class OrderDaoImpl implements OrderDao {
 
         KeyHolder keyholder = new GeneratedKeyHolder();
 
-        namedParameterJdbcTemplate.update(sqlCommand, new MapSqlParameterSource(map), keyholder);
+        namedParameterJdbcTemplate.update(sqlCommand, new MapSqlParameterSource(map), keyholder, new String[]{"order_id"});
 
         int orderId = keyholder.getKey().intValue();
 
