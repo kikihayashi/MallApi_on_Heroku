@@ -51,13 +51,7 @@ public class UserDaoImpl implements UserDao {
         Map<String, Object> map = new HashMap<>();
         map.put("userId", id);
 
-        List<User> userList = namedParameterJdbcTemplate.query(sqlCommand, map, new UserRowMapper());
-
-        if (userList.size() > 0) {
-            return userList.get(0);
-        } else {
-            return null;
-        }
+        return queryUser(sqlCommand, map);
     }
 
     @Override
@@ -68,6 +62,10 @@ public class UserDaoImpl implements UserDao {
         Map<String, Object> map = new HashMap<>();
         map.put("email", email);
 
+        return queryUser(sqlCommand, map);
+    }
+
+    private User queryUser(String sqlCommand, Map<String, Object> map) {
         try {
             List<User> userList = namedParameterJdbcTemplate.query(sqlCommand, map, new UserRowMapper());
             if (userList.size() > 0) {
@@ -80,4 +78,5 @@ public class UserDaoImpl implements UserDao {
             return null;
         }
     }
+
 }
