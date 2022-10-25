@@ -2,7 +2,6 @@ package com.kikihayashi.springboot_mall.dao.implement;
 
 import com.kikihayashi.springboot_mall.dao.OrderDao;
 import com.kikihayashi.springboot_mall.dto.OrderQueryParams;
-import com.kikihayashi.springboot_mall.dto.ProductQueryParams;
 import com.kikihayashi.springboot_mall.model.Order;
 import com.kikihayashi.springboot_mall.model.OrderItem;
 import com.kikihayashi.springboot_mall.rowmapper.OrderItemRowMapper;
@@ -12,7 +11,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.remoting.jaxws.SimpleHttpServerJaxWsServiceExporter;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
